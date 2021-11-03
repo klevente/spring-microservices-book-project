@@ -1,2 +1,2 @@
 # spring-microservices-book-project
-Sample project and exercises found in the "Learn Microservices with Spring Boot" book
+Sample project and exercises found in the book 'Learn Microservices with Spring Boot'
