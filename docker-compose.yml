@@ -1,0 +1,37 @@
+version: "3.8"
+services:
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq-book
+    volumes:
+      - ./.docker/rabbitmq/etc/:/etc/rabbitmq/
+      - ./.docker/rabbitmq/data/:/var/lib/rabbitmq/
+      - ./.docker/rabbitmq/logs/:/var/log/rabbitmq/
+    environment:
+      RABBITMQ_ERLANG_COOKIE: ${RABBITMQ_ERLANG_COOKIE}
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    networks:
+      - rabbitmq-network 
+  consul:
+    image: consul
+    container_name: consul-book
+    volumes:
+      - ./.docker/consul/bitnami:/bitnami
+      - ./.docker/consul/data:/consul/data
+    ports:
+      - '8300:8300'
+      - '8301:8301'
+      - '8301:8301/udp'
+      - '8500:8500'
+      - '8600:8600'
+      - '8600:8600/udp'
+    command: "agent -node=learnmicro -dev -client 0.0.0.0"
+networks:
+  rabbitmq-network:
+    driver: bridge
+volumes:
+  book:
